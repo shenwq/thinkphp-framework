@@ -5,10 +5,8 @@ namespace ffhome\framework\controller;
 use jianyan\excel\Excel;
 use think\helper\Str;
 
-class CrudController
+abstract class CrudController extends BaseController
 {
-    use \ffhome\framework\traits\JumpTrait;
-
     /**
      * 当前模型
      * @Model

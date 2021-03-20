@@ -10,8 +10,10 @@ use think\Validate;
 /**
  * 控制器基础类
  */
-class BaseController
+abstract class BaseController
 {
+    use \ffhome\framework\traits\JumpTrait;
+
     /**
      * Request实例
      * @var \think\Request
