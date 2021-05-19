@@ -224,9 +224,9 @@ abstract class CrudController extends BaseController
         return $this->fetch($this->getAddPage());
     }
 
-    protected function getAddDefaultValue()
+    protected function getAddDefaultValue($row = [])
     {
-        return $this->openInsertInfo([]);
+        return $this->openInsertInfo($row);
     }
 
     protected function openInsertInfo($row)
