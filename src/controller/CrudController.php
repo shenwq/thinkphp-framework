@@ -226,10 +226,10 @@ abstract class CrudController extends BaseController
 
     protected function getAddDefaultValue($row)
     {
-        return $this->openInsertInfo($row);
+        return $this->addInfoInEdit($row);
     }
 
-    protected function openInsertInfo($row)
+    protected function addInfoInEdit($row)
     {
         return $row;
     }
@@ -275,7 +275,7 @@ abstract class CrudController extends BaseController
         $list = $this->getConditionModel([$this->alias . '.id' => $id])
             ->fieldRaw($this->getEditFields())
             ->limit(1)->select()->toArray();
-        return $this->openInsertInfo($list[0]);
+        return $this->addInfoInEdit($list[0]);
     }
 
     protected function getEditFields()
