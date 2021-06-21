@@ -241,15 +241,35 @@ abstract class CrudController extends BaseController
 
     protected function addOperate()
     {
-        $post = $this->request->post();
-        $rule = $this->validateAddData($post);
-        $this->validate($post, $rule);
+        $fields = $this->getAddFilterFields();
+        if (!empty($fields)) {
+            $param = $this->request->only($fields);
+        } else {
+            $param = $this->request->param();
+        }
+        $rule = $this->validateAddData($param);
+        $this->validate($param, $rule);
         try {
-            $save = $this->model->save($post);
+            $save = $this->model->save($param);
         } catch (\Exception $e) {
             $this->error(lang('common.save_fail') . ':' . $e->getMessage());
         }
         $save ? $this->success(lang('common.save_success')) : $this->error(lang('common.save_fail'));
+    }
+
+    protected function getAddFilterFields()
+    {
+        return $this->getFilterFields();
+    }
+
+    protected function getEditFilterFields()
+    {
+        return $this->getFilterFields();
+    }
+
+    protected function getFilterFields()
+    {
+        return [];
     }
 
     public function edit($id)
@@ -285,11 +305,16 @@ abstract class CrudController extends BaseController
 
     protected function editOperate($id, $row)
     {
-        $post = $this->request->post();
-        $rule = $this->validateEditData($post);
-        $this->validate($post, $rule);
+        $fields = $this->getEditFilterFields();
+        if (!empty($fields)) {
+            $param = $this->request->only($fields);
+        } else {
+            $param = $this->request->param();
+        }
+        $rule = $this->validateEditData($param);
+        $this->validate($param, $rule);
         try {
-            $save = $row->save($post);
+            $save = $row->save($param);
         } catch (\Exception $e) {
             $this->error(lang('common.save_fail'));
         }
