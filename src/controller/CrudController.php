@@ -3,6 +3,7 @@
 namespace ffhome\framework\controller;
 
 use jianyan\excel\Excel;
+use think\facade\Db;
 use think\helper\Str;
 
 abstract class CrudController extends BaseController
@@ -126,12 +127,16 @@ abstract class CrudController extends BaseController
                 $where[] = [$this->convertFieldName($field, '_ne'), '!=', $value];
             } else if (Str::endsWith($field, '_lt')) {
                 $where[] = [$this->convertFieldName($field, '_lt'), '<', $value];
+            } else if (Str::endsWith($field, '_time_le')) {
+                $where[] = [$this->convertFieldName($field, '_le'), '<', date('Y-m-d', strtotime($value . '+1 day'))];
             } else if (Str::endsWith($field, '_le')) {
                 $where[] = [$this->convertFieldName($field, '_le'), '<=', $value];
             } else if (Str::endsWith($field, '_gt')) {
                 $where[] = [$this->convertFieldName($field, '_gt'), '>', $value];
             } else if (Str::endsWith($field, '_ge')) {
                 $where[] = [$this->convertFieldName($field, '_ge'), '>=', $value];
+            } else if (Str::endsWith($field, '_null')) {
+                $where[] = [$this->convertFieldName($field, '_null'), 'exp', Db::raw($value == 1 ? 'is null' : 'is not null')];
             } else if (Str::endsWith($field, '_range')) {
                 $f = $this->convertFieldName($field, '_range');
                 [$beginTime, $endTime] = explode(' - ', $value);
