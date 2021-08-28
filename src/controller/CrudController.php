@@ -255,11 +255,21 @@ abstract class CrudController extends BaseController
         $rule = $this->validateAddData($param);
         $this->validate($param, $rule);
         try {
+            $this->addBefore($param);
             $save = $this->model->save($param);
+            $this->addAfter();
         } catch (\Exception $e) {
             $this->error(lang('common.save_fail') . ':' . $e->getMessage());
         }
         $save ? $this->success(lang('common.save_success')) : $this->error(lang('common.save_fail'));
+    }
+
+    protected function addBefore($param)
+    {
+    }
+
+    protected function addAfter()
+    {
     }
 
     protected function getAddFilterFields()
@@ -319,11 +329,21 @@ abstract class CrudController extends BaseController
         $rule = $this->validateEditData($param);
         $this->validate($param, $rule);
         try {
+            $this->editBefore($param);
             $save = $row->save($param);
+            $this->editAfter();
         } catch (\Exception $e) {
             $this->error(lang('common.save_fail'));
         }
         $save ? $this->success(lang('common.save_success')) : $this->error(lang('common.save_fail'));
+    }
+
+    protected function editBefore($param)
+    {
+    }
+
+    protected function editAfter()
+    {
     }
 
     protected function getEditOperateModel($id)
