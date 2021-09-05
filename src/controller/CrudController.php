@@ -333,7 +333,7 @@ abstract class CrudController extends BaseController
         try {
             $this->editBefore($param);
             $save = $row->save($param);
-            $this->editAfter();
+            $this->editAfter($row);
         } catch (\Exception $e) {
             $this->error(lang('common.save_fail'));
         }
@@ -344,7 +344,7 @@ abstract class CrudController extends BaseController
     {
     }
 
-    protected function editAfter()
+    protected function editAfter($row)
     {
     }
 
