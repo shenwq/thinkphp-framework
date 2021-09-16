@@ -124,7 +124,7 @@ abstract class CrudController extends BaseController
             } else if (Str::endsWith($field, '_eq')) {
                 $where[] = [$this->convertFieldName($field, '_eq'), '=', $value];
             } else if (Str::endsWith($field, '_ne')) {
-                $where[] = [$this->convertFieldName($field, '_ne'), '!=', $value];
+                $where[] = [$this->convertFieldName($field, '_ne'), '<>', $value];
             } else if (Str::endsWith($field, '_lt')) {
                 $where[] = [$this->convertFieldName($field, '_lt'), '<', $value];
             } else if (Str::endsWith($field, '_time_le')) {
