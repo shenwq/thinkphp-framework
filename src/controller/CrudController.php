@@ -101,7 +101,7 @@ abstract class CrudController extends BaseController
             ->count();
         $list = $this->getConditionModel($where)
             ->page($page, $limit)
-            ->fieldRaw($this->getSearchFields())
+            ->field($this->getSearchFields())
             ->order($this->getSearchSort())
             ->select()->toArray();
         return $this->successPage($count, $list);
@@ -205,7 +205,7 @@ abstract class CrudController extends BaseController
         list($page, $limit, $where) = $this->buildSearchParams();
         $list = $this->getConditionModel($where)
             ->limit(100000)
-            ->fieldRaw($this->getSearchFields())
+            ->field($this->getSearchFields())
             ->order($this->getSearchSort())
             ->select()->toArray();
         $fileName = date('YmdHis');
@@ -310,7 +310,7 @@ abstract class CrudController extends BaseController
     protected function getEditPageModel($id)
     {
         $list = $this->getConditionModel([$this->alias . '.id' => $id])
-            ->fieldRaw($this->getEditFields())
+            ->field($this->getEditFields())
             ->limit(1)->select()->toArray();
         return $this->addInfoInEdit($list[0]);
     }
