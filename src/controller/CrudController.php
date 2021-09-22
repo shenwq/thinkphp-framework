@@ -109,13 +109,19 @@ abstract class CrudController extends BaseController
 
     protected function buildSearchParams()
     {
-        $get = $this->request->get('', null, null);
-        $page = isset($get['page']) && !empty($get['page']) ? $get['page'] : 1;
-        $limit = isset($get['limit']) && !empty($get['limit']) ? $get['limit'] : $this->defaultPageSize;
+        $param = $this->request->param('', null, null);
+        $page = isset($param['page']) && !empty($param['page']) ? $param['page'] : 1;
+        $limit = isset($param['limit']) && !empty($param['limit']) ? $param['limit'] : $this->defaultPageSize;
+        unset($param['page']);
+        unset($param['limit']);
+        $where = $this->buildWhere($param);
+        return [$page, $limit, $where];
+    }
+
+    protected function buildWhere($param)
+    {
         $where = [];
-        unset($get['page']);
-        unset($get['limit']);
-        foreach ($get as $field => $value) {
+        foreach ($param as $field => $value) {
             if ($value == '') {
                 continue;
             }
@@ -146,7 +152,7 @@ abstract class CrudController extends BaseController
                 $where[] = [$f, '<=', $endTime];
             }
         }
-        return [$page, $limit, $where];
+        return $where;
     }
 
     private function convertFieldName($field, $op)
