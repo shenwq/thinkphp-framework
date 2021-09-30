@@ -141,6 +141,8 @@ abstract class CrudController extends BaseController
                 $where[] = [$this->convertFieldName($field, '_gt'), '>', $value];
             } else if (Str::endsWith($field, '_ge')) {
                 $where[] = [$this->convertFieldName($field, '_ge'), '>=', $value];
+            } else if (Str::endsWith($field, '_in')) {
+                $where[] = [$this->convertFieldName($field, '_in'), 'in', $value];
             } else if (Str::endsWith($field, '_find_in_set')) {
                 $where[] = [$this->convertFieldName($field, '_find_in_set'), 'find in set', $value];
             } else if (Str::endsWith($field, '_null')) {
