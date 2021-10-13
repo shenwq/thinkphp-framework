@@ -86,11 +86,13 @@ abstract class CrudController extends BaseController
         if ($this->request->isAjax()) {
             return $this->indexOperate();
         }
-        return $this->indexPage();
+        $param = $this->request->param('', null, null);
+        return $this->indexPage($param);
     }
 
-    protected function indexPage()
+    protected function indexPage($param)
     {
+        $this->assign('param', $param);
         return $this->fetch();
     }
 
