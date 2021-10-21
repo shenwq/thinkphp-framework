@@ -276,7 +276,7 @@ abstract class CrudController extends BaseController
         $save ? $this->success(lang('common.save_success')) : $this->error(lang('common.save_fail'));
     }
 
-    protected function addBefore($param)
+    protected function addBefore(&$param)
     {
     }
 
@@ -350,7 +350,7 @@ abstract class CrudController extends BaseController
         $save ? $this->success(lang('common.save_success')) : $this->error(lang('common.save_fail'));
     }
 
-    protected function editBefore($param)
+    protected function editBefore(&$param)
     {
     }
 
