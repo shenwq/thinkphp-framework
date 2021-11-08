@@ -154,6 +154,19 @@ abstract class CrudController extends BaseController
                 [$beginTime, $endTime] = explode(' - ', $value);
                 $where[] = [$f, '>=', $beginTime];
                 $where[] = [$f, '<=', $endTime];
+            } else if (Str::endsWith($field, '_or')) {
+                $f = explode('_or_', Str::substr($field, 0, Str::length($field) - Str::length('_or')));
+                $p = [];
+                foreach ($f as $name) {
+                    $p[$name] = $value;
+                }
+                $w = $this->buildWhere($p);
+                $condition = [];
+                foreach ($w as $it) {
+                    // TODO:此次只处理基础的条件语句，复杂的后期再增加
+                    $condition[] = "{$it[0]} {$it[1]} '{$it[2]}'";
+                }
+                $where[] = Db::raw(implode(' or ', $condition));
             }
         }
         return $where;
