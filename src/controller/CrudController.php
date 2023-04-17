@@ -404,6 +404,7 @@ abstract class CrudController extends BaseController
         $row = $this->onBeforeDelete($id);
         try {
             $save = $row->delete();
+            $this->onAfterDelete($row->toArray());
         } catch (\Exception $e) {
             $this->error(lang('common.delete_fail'));
         }
@@ -415,5 +416,9 @@ abstract class CrudController extends BaseController
         $row = $this->model->whereIn('id', $id)->select();
         $row->isEmpty() && $this->error(lang('common.data_not_exist'));
         return $row;
+    }
+
+    protected function onAfterDelete($row)
+    {
     }
 }
